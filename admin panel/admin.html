@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase Admin</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>    <section id="admin-dashboard" class="admin-dashboard">
+
+    <aside class="admin-sidebar">
+
+        <h2 class="admin-logo">ShopEase<span>.</span></h2>
+
+        <p class="sidebar-label">MAIN MENU</p>
+
+        <button class="admin-nav active" data-page="Dashboard">
+            🏠 Dashboard
+        </button>
+
+        <button class="admin-nav" data-page="Categories">
+            🗂️ Categories
+        </button>
+        <button class="admin-nav" data-page="Products">
+            📦 Products
+        </button>
+
+        <button class="admin-nav" data-page="Inventory">📦 Inventory</button>
+
+        <button class="admin-nav" data-page="Orders">
+            🛒 Orders
+        </button>
+
+        <button class="admin-nav" data-page="Customers">
+            👥 Customers
+        </button>
+
+        <button class="admin-nav" data-page="Sales">📊 Sales &amp; Reports</button>
+
+        <button class="admin-nav" data-page="Analytics">
+            📊 Analytics
+        </button>
+
+        <button class="admin-nav" data-page="Settings">
+            ⚙️ Settings
+        </button>
+
+        <div class="sidebar-bottom">
+            <a class="back-shop" href="index.html">← Back to Shop</a>
+        </div>
+
+    </aside>
+
+
+    <main class="admin-main">
+
+        <header class="admin-header">
+
+            <div>
+                <h1 id="admin-page-title">Dashboard</h1>
+                <p>Welcome back, Admin!</p>
+            </div>
+
+            <div class="admin-profile">
+                <span>👤</span>
+                <div>
+                    <strong>Admin</strong>
+                    <small>Administrator</small>
+                </div>
+            </div>
+
+        </header>
+
+
+        <div id="admin-page-content">
+
+            <h2 class="section-heading">Overview</h2>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-icon blue">📦</div>
+                    <p>Total Products</p>
+                    <h2 id="total-products">0</h2>
+                    <small>Available products</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">🛒</div>
+                    <p>Total Orders</p>
+                    <h2>25</h2>
+                    <small>Sample orders</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">👥</div>
+                    <p>Total Customers</p>
+                    <h2>18</h2>
+                    <small>Sample customers</small>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">₹</div>
+                    <p>Total Revenue</p>
+                    <h2>₹25,000</h2>
+                    <small>Sample revenue</small>
+                </div>
+
+            </div>
+
+
+            <div class="orders-section">
+
+                <div class="orders-heading">
+                    <div>
+                        <h2>Recent Orders</h2>
+                        <p>Latest customer orders</p>
+                    </div>
+
+                    <button class="view-orders"
+                        data-page="Orders">
+                        View All
+                    </button>
+                </div>
+
+
+                <div class="table-container">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Product</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr>
+                                <td>#ORD001</td>
+                                <td>Rahul</td>
+                                <td>T-Shirt</td>
+                                <td>₹499</td>
+                                <td><span class="status delivered">Delivered</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>#ORD002</td>
+                                <td>Priya</td>
+                                <td>Shoes</td>
+                                <td>₹1,299</td>
+                                <td><span class="status pending">Pending</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>#ORD003</td>
+                                <td>Arun</td>
+                                <td>Smart Watch</td>
+                                <td>₹1,999</td>
+                                <td><span class="status processing">Processing</span></td>
+                            </tr>
+
+                            <tr>
+                                <td>#ORD004</td>
+                                <td>Divya</td>
+                                <td>Backpack</td>
+                                <td>₹899</td>
+                                <td><span class="status delivered">Delivered</span></td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</section>
+
+    <script src="/script.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
