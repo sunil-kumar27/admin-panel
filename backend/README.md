@@ -6,7 +6,7 @@ ShopEase uses MongoDB through this server. The browser never receives the Atlas 
 
 1. In Atlas, rotate the database user's password shown in the screenshot, then copy the new connection string from **Connect → Drivers**.
 2. Copy `backend/.env.example` to `backend/.env`, replace the placeholders, and set a long random `ADMIN_API_KEY`.
-3. From this directory, run `npm install`, then `npm start`.
+3. From the project root, run `npm install`, then `npm start`. On Windows PowerShell, use `npm.cmd install` and `npm.cmd start` if script execution blocks `npm`.
 4. Open the storefront at `http://localhost:3000` and the admin panel at `http://localhost:3000/admin`.
 5. On first admin use, enter the same `ADMIN_API_KEY` once per browser session.
 

@@ -1,8 +1,8 @@
-require("dotenv").config();
+const path = require("node:path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const express = require("express");
 const { MongoClient } = require("mongodb");
-const path = require("node:path");
 
 const app = express();
 const port = Number(process.env.PORT) || 3000;
