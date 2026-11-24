@@ -46,7 +46,7 @@
         </button>
 
         <div class="sidebar-bottom">
-            <a class="back-shop" href="index.html">← Back to Shop</a>
+            <a class="back-shop" href="../user%20site/index.html">← Back to Shop</a>
         </div>
 
     </aside>
@@ -185,8 +185,19 @@
     </main>
 
 </section>
-
-    <script src="/script.js"></script>
-    <script src="admin.js"></script>
+    <script>
+        (() => {
+            const backendRoute = /\/admin-panel(?:\/|$)/.test(window.location.pathname);
+            const storefrontScript = document.createElement("script");
+            storefrontScript.src = backendRoute ? "/script.js" : "../user%20site/script.js";
+            storefrontScript.onload = () => {
+                const adminScript = document.createElement("script");
+                adminScript.src = backendRoute ? "/admin-panel/admin.js" : "admin.js";
+                document.body.appendChild(adminScript);
+            };
+            storefrontScript.onerror = () => console.error("Could not load the storefront data script; admin navigation is unavailable.");
+            document.head.appendChild(storefrontScript);
+        })();
+    </script>
 </body>
 </html>

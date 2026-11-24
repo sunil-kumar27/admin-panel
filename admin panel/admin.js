@@ -4,6 +4,11 @@ const storefront = document.getElementById("storefront-view");
 const adminDashboard = document.getElementById("admin-dashboard");
 const content = document.getElementById("admin-page-content");
 const dashboardHTML = content ? content.innerHTML : "";
+function storefrontHomeUrl() {
+    return /\/admin-panel(?:\/|$)/.test(window.location.pathname) ? "/" : "../user%20site/index.html";
+}
+const shopLink = document.querySelector(".back-shop");
+if (shopLink) shopLink.href = storefrontHomeUrl();
 
 function escapeAdminHTML(value) {
     return String(value).replace(/[&<>"']/g, character => ({
@@ -469,7 +474,7 @@ function renderSettingsPage() {
             document.getElementById("settings-message").textContent = "Settings saved.";
         } catch (error) { document.getElementById("settings-message").textContent = "Could not save settings in this browser."; }
     });
-    document.getElementById("settings-logout").addEventListener("click", () => { window.location.href = "index.html"; });
+    document.getElementById("settings-logout").addEventListener("click", () => { window.location.href = storefrontHomeUrl(); });
 }
 
 function renderOrdersPage(message = "") {
@@ -781,6 +786,38 @@ function renderSalesPage(fromDate, toDate) {
     });
 }
 
+function renderAnalyticsPage() {
+    if (!content) return;
+    const activeOrders = orders.filter(order => order.status !== "Cancelled");
+    const revenue = activeOrders.reduce((sum, order) => sum + Number(order.total || 0), 0);
+    const unitsSold = activeOrders.reduce((sum, order) => sum + (order.items || []).reduce((count, item) => count + Number(item.quantity || 0), 0), 0);
+    const lowStock = products.filter(product => Number(product.stock) > 0 && Number(product.stock) <= 5);
+    const outOfStock = products.filter(product => Number(product.stock) <= 0);
+    const inventoryValue = products.reduce((sum, product) => sum + Number(product.price || 0) * Number(product.stock || 0), 0);
+    const categoryCounts = new Map();
+    products.forEach(product => categoryCounts.set(product.category || "Uncategorized", (categoryCounts.get(product.category || "Uncategorized") || 0) + 1));
+    const categoryRows = [...categoryCounts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    const statusCounts = new Map();
+    activeOrders.forEach(order => { const status = order.status || "New"; statusCounts.set(status, (statusCounts.get(status) || 0) + 1); });
+    const statusRows = [...statusCounts.entries()].sort((a, b) => b[1] - a[1]);
+    content.innerHTML = `
+        <section class="sales-management">
+            <div class="orders-heading"><div><h2>Store analytics</h2><p>Live overview calculated from your catalog, inventory, and orders.</p></div></div>
+            <div class="sales-summary-grid">
+                <article><span>Active orders</span><strong>${activeOrders.length}</strong><small>Cancelled orders excluded</small></article>
+                <article><span>Gross sales</span><strong>${formatCurrency(revenue)}</strong><small>From active orders</small></article>
+                <article><span>Units sold</span><strong>${unitsSold}</strong><small>Across all active orders</small></article>
+                <article><span>Catalog products</span><strong>${products.length}</strong><small>${categoryCounts.size} product categories</small></article>
+                <article><span>Inventory value</span><strong>${formatCurrency(inventoryValue)}</strong><small>Current stock at listed prices</small></article>
+                <article><span>Stock alerts</span><strong>${lowStock.length + outOfStock.length}</strong><small>${lowStock.length} low · ${outOfStock.length} out of stock</small></article>
+            </div>
+            <div class="sales-report-grid">
+                <section class="sales-panel"><h3>Orders by status</h3><div class="sales-table-wrap"><table><thead><tr><th>Status</th><th>Orders</th></tr></thead><tbody>${statusRows.map(([status, count]) => `<tr><td>${escapeAdminHTML(status)}</td><td>${count}</td></tr>`).join("") || '<tr><td colspan="2">No orders yet.</td></tr>'}</tbody></table></div></section>
+                <section class="sales-panel"><h3>Products by category</h3><div class="sales-table-wrap"><table><thead><tr><th>Category</th><th>Products</th></tr></thead><tbody>${categoryRows.map(([category, count]) => `<tr><td>${escapeAdminHTML(category)}</td><td>${count}</td></tr>`).join("") || '<tr><td colspan="2">No products yet.</td></tr>'}</tbody></table></div></section>
+                <section class="sales-panel"><h3>Inventory needing attention</h3><div class="sales-table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Stock</th></tr></thead><tbody>${[...outOfStock, ...lowStock].map(product => `<tr><td>${escapeAdminHTML(product.name)}</td><td>${escapeAdminHTML(product.category)}</td><td>${product.stock === 0 ? "Out of stock" : `${product.stock} left`}</td></tr>`).join("") || '<tr><td colspan="3">All products have healthy stock.</td></tr>'}</tbody></table></div></section>
+            </div>
+        </section>`;
+}
 function renderAdminPage(page) {
     if (!content) return;
 
@@ -827,6 +864,10 @@ function renderAdminPage(page) {
         renderSalesPage();
         return;
     }
+    if (page === "Analytics") {
+        renderAnalyticsPage();
+        return;
+    }
 
     content.innerHTML = `
         <div class="orders-section">
@@ -866,7 +907,7 @@ if (window.location.protocol !== "file:") {
             localStorage.setItem("shopease-orders-v1", JSON.stringify(orders));
             updateDashboard();
             const activePage = document.querySelector(".admin-nav.active")?.dataset.page;
-            if (activePage === "Orders" || activePage === "Dashboard") renderAdminPage(activePage);
+            if (activePage === "Orders" || activePage === "Dashboard" || activePage === "Analytics") renderAdminPage(activePage);
         })
         .catch(error => console.error(error));
 }

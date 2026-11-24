@@ -757,7 +757,7 @@ th, td { vertical-align: middle; }
 .admin-theme-dark .sales-summary-grid article, .admin-theme-dark .sales-panel { background: #1f2937; border-color: #374151; }
 .admin-theme-dark .sales-summary-grid strong { color: #e5e7eb; }
 .admin-theme-dark .sales-panel th, .admin-theme-dark .sales-panel td { border-color: #374151; }
-[data-page="Analytics"] { display: none !important; }
+
 @media (max-width: 900px) { .sales-report-grid { grid-template-columns: 1fr; } }
 @media (max-width: 1000px) { .sales-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .sales-summary-grid { grid-template-columns: 1fr; } .sales-report-heading { align-items: flex-start; flex-direction: column; } }
@@ -878,7 +878,7 @@ th, td { vertical-align: middle; }
         border-bottom: 1px solid #e5e7eb;
     }
     .admin-logo { grid-column: 1 / -1; margin: 0 0 6px; font-size: 23px; }
-    .sidebar-label { display: none; }
+    .sidebar-label { display: block; grid-column: 1 / -1; margin: 2px 0 4px; }
     .admin-nav { width: 100%; min-height: 42px; margin: 0; padding: 9px 7px; text-align: center; font-size: 13px; }
     .sidebar-bottom { grid-column: 1 / -1; margin-top: 4px; }
     .back-shop { width: 100%; }
